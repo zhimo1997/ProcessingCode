@@ -8,9 +8,12 @@ void draw() {
     background(0, 200, 255);
     fill(250, 100, 0);
     stroke(250, 200, 100);
-    triangleStrip(width / 2, height / 2, 100, 150, 30, -150, 15);
-    triangleFan(width / 2, height / 2, 100, 30, -150, 15);
+
 }
+
+
+// -----------------------------------------------Regular Polygeon Begin--------------------------------------------
+
 
 // 这里提取了起始角度作为动态变量，还可以对半径等变量做一些动态修改
 void polygeonTest(){
@@ -30,6 +33,18 @@ void regularPolygeon(float x, float y, float radius, int npoints, float offset) 
         vertex(pointX, pointY);
     }
     endShape(CLOSE);
+}
+
+
+// -----------------------------------------------Regular Polygeon End--------------------------------------------
+
+
+// --------------------------------------------------Triangle Begin------------------------------------------------
+
+
+void triangleTest() {
+    triangleStrip(width / 2, height / 2, 100, 150, 30, -150, 15);
+    triangleFan(width / 2, height / 2, 100, 30, -150, 15);
 }
 
 // TRIANGLE_STRIP 每连续的三个vertex构成一个三角形
@@ -71,3 +86,9 @@ void triangleFan(float x, float y, float radius, float startAngle, float endAngl
     }
     endShape();
 }
+
+
+// --------------------------------------------------Triangle End------------------------------------------------
+
+
+// --------------------------------------------------------------------------------------------------
