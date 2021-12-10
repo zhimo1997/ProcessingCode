@@ -1,14 +1,30 @@
+int growScale = 0
+
 void setup() {
     size(800, 600);
     smooth();
-    // noStroke();
+
+    // strokeJoin(ROUND);
+    // strokeCap(ROUND);
 }
 
 void draw() {
     background(0, 200, 255);
     fill(250, 100, 0);
-    stroke(250, 200, 100);
+    // stroke(250, 200, 100);
 
+    // triangleTest();
+    starTest();
+    // beginShape();
+    // curveVertex(0.3 * width, 0.3 * height);
+    // curveVertex(0.7 * width, 0.3 * height);
+    // curveVertex(0.7 * width, 0.7 * height);
+    // curveVertex(0.3 * width, 0.7 * height);
+    // curveVertex(0.3 * width, 0.3 * height);
+    // curveVertex(0.7 * width, 0.3 * height);
+    // curveVertex(0.7 * width, 0.7 * height);
+
+    // endShape();
 }
 
 
@@ -43,8 +59,8 @@ void regularPolygeon(float x, float y, float radius, int npoints, float offset) 
 
 
 void triangleTest() {
-    triangleStrip(width / 2, height / 2, 100, 150, 30, -150, 15);
-    triangleFan(width / 2, height / 2, 100, 30, -150, 15);
+    // triangleStrip(width / 2, height / 2, 100, 150, 30, -150, 15);
+    triangleFan(width / 2, height / 2, 100, 0, -320, 15);
 }
 
 // TRIANGLE_STRIP 每连续的三个vertex构成一个三角形
@@ -52,10 +68,13 @@ void triangleStrip(float x, float y, float innerRadius, float outerRadius, float
     beginShape(TRIANGLE_STRIP);
 
     // 对角度进行模操作
-    startAngle = radians(startAngle % 360);
-    endAngle = radians(endAngle % 360);
+    startAngle = radians(startAngle % 360.001);
+    endAngle = radians(endAngle % 360.001);
     float maxAngle = max(startAngle, endAngle);
     float minAngle = min(startAngle, endAngle);
+    if ((maxAngle - minAngle) == 0){
+        maxAngle = minAngle + TWO_PI;
+    }
     float unitAngle = (maxAngle - minAngle) / segments;
 
     for (float angle = minAngle; angle <= maxAngle; angle += unitAngle) {
@@ -71,14 +90,18 @@ void triangleStrip(float x, float y, float innerRadius, float outerRadius, float
 }
 
 // TRIANGLE_FAN 以第一个顶点为锚点，每两个顶点和锚点构成三角形
-void triangleFan(float x, float y, float radius, float startAngle, float endAngle, float segments) {
+void triangleFan(float x, float y, float radius, float startAngle, float endAngle, int segments) {
     beginShape(TRIANGLE_FAN);
     vertex(x, y);
     startAngle = radians(startAngle % 360);
     endAngle = radians(endAngle % 360);
     float maxAngle = max(startAngle, endAngle);
     float minAngle = min(startAngle, endAngle);
+    if ((maxAngle - minAngle) == 0){
+        maxAngle = minAngle + TWO_PI;
+    }
     float unitAngle = (maxAngle - minAngle) / segments;
+
     for (float angle = minAngle; angle <= maxAngle; angle += unitAngle) {
         float pointX = x + radius * cos(angle);
         float pointY = y + radius * sin(angle);
@@ -91,4 +114,62 @@ void triangleFan(float x, float y, float radius, float startAngle, float endAngl
 // --------------------------------------------------Triangle End------------------------------------------------
 
 
-// --------------------------------------------------------------------------------------------------
+// --------------------------------------------------Star Begin------------------------------------------------
+
+void starTest(){
+    star(width / 2, height / 2, 50, 150, 0, 360, 12);
+}
+
+// curve star
+void star(float x, float y, float innerRadius, float outerRadius, float startAngle, float endAngle, float npoints) {
+    beginShape();
+
+    // 对角度进行模操作
+    startAngle = radians(startAngle % 360);
+    endAngle = radians(endAngle % 360);
+    float maxAngle = max(startAngle, endAngle);
+    float minAngle = min(startAngle, endAngle);
+    if ((maxAngle - minAngle) == 0){
+        maxAngle = minAngle + TWO_PI;
+    }
+    float unitAngle = (maxAngle - minAngle) / npoints;
+
+    for (float angle = minAngle; angle <= maxAngle + unitAngle * npoints / 2; angle += unitAngle) {
+        float pointX = x + innerRadius * cos(angle - 0.5 * unitAngle);
+        float pointY = y + innerRadius * sin(angle - 0.5 * unitAngle);
+        curveVertex(pointX, pointY);
+
+        pointX = x + outerRadius * cos(angle);
+        pointY = y + outerRadius * sin(angle);
+        curveVertex(pointX, pointY);
+    }
+    endShape();
+}
+
+void starGrow(float x, float y, float innerRadius, float outerRadius, float startAngle, float endAngle, float npoints) {
+    beginShape();
+
+    // 对角度进行模操作
+    startAngle = radians(startAngle % 360);
+    endAngle = radians(endAngle % 360);
+    float maxAngle = max(startAngle, endAngle);
+    float minAngle = min(startAngle, endAngle);
+    float spawnRadius = innerRadius;
+    if ((maxAngle - minAngle) == 0){
+        maxAngle = minAngle + TWO_PI;
+    }
+    float unitAngle = (maxAngle - minAngle) / npoints;
+
+    for (float angle = minAngle; angle <= maxAngle + unitAngle * npoints / 2; angle += unitAngle) {
+        float pointX = x + innerRadius * cos(angle - 0.5 * unitAngle);
+        float pointY = y + innerRadius * sin(angle - 0.5 * unitAngle);
+        curveVertex(pointX, pointY);
+
+        pointX = x + outerRadius * cos(angle);
+        pointY = y + outerRadius * sin(angle);
+        curveVertex(pointX, pointY);
+    }
+    endShape();
+}
+
+// --------------------------------------------------Star End------------------------------------------------
