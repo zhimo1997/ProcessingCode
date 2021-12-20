@@ -8,7 +8,7 @@ void setup() {
 
     // frameRate(5);
     // noiseGraph_1D();
-    // noiseGraph_2D();
+    noiseGraph_2D();
     // drawNoiseCircle(width * 0.5, height * 0.5, 200);
 
     // background(0);
@@ -17,8 +17,8 @@ void setup() {
 }
 
 void draw() {
-    background(0);
-    drawNoiseCircle(width * 0.5, height * 0.5, 200, 0.2 * frameCount);
+    // background(0);
+    // drawNoiseCircle(width * 0.5, height * 0.5, 200, 0.2 * frameCount);
 
     // drawNoiseCircle_Dynamic(150, 500);
     // background(100, 100, 100, 255);
@@ -70,7 +70,8 @@ void noiseGraph_2D() {
     // 第二种遍历方式
     for (int i = 0; i < width; i++) {
         for (int j = 0; j < height; j++) {
-            pixels[i + j * width] = color(255 * noise(i * sampleInterval, j * sampleInterval), 0, 255);
+            // pixels[i + j * width] = color(255 * noise(i * sampleInterval, j * sampleInterval), 0, 255);
+            pixels[i + j * width] = color(255 * noise((i + j * width) * sampleInterval), 0, 255);
         }
     }
     updatePixels();
